@@ -1,6 +1,15 @@
-all: src/main.c
-	nasm -g -felf32 src/functions.asm -o obj/functions.o
-	gcc -g -std=c99 -m32 -o bin/main obj/functions.o src/main.c -I src
+CC := gcc
+CFLAGS := -Isrc -g -m32 -std=c99
+NASMFLAGS := -g -felf32
+
+all: obj/functions.o
+	$(CC) -o bin/main src/main.c $(CFLAGS)
+
+test: obj/functions.o
+	gcc -o bin/test obj/functions.o src/test/tests.c $(CFLAGS) -lm
+
+obj/functions.o: src/functions.asm
+	nasm -o obj/functions.o src/functions.asm $(NASMFLAGS)
 
 clean:
 	rm obj/* bin/*
