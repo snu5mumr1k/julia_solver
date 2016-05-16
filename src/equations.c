@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-float root(float (*f)(float), float(*g)(float), float a, float b, float eps) {
+float root(float (*f)(float), float(*g)(float), float a, float b, float eps, int *iters_ptr) {
+    int n_iterations = 0;
     if ((f(a) - g(a)) * (f(b) - g(b)) > 0.0f) {
         printf("root needs (f(a) - g(a)) * (f(b) - g(b)) to be < 0!\n");
         exit(1);
@@ -13,6 +14,7 @@ float root(float (*f)(float), float(*g)(float), float a, float b, float eps) {
     float right = b;
 
     while (right - left > eps) {
+        n_iterations++;
         float middle = (right + left) / 2.0f;
         if ((f(left) - g(left)) * (f(middle) - g(middle)) < 0.0f)
             right = middle;
@@ -21,10 +23,12 @@ float root(float (*f)(float), float(*g)(float), float a, float b, float eps) {
         printf("%f %f %f\n", middle, left, right);
     }
 
+    *iters_ptr = n_iterations;
+
     return left;
 }
 
-float integral(float (*f)(float), float a, float b, float eps) {
+float integral(float (*f)(float), float a, float b, float eps, int *iters_ptr) {
     float prev_result = 0.0f;
     float curr_result = simpsons_formula(f, a, b);
     float curr_gap = b - a / 2;
@@ -40,6 +44,8 @@ float integral(float (*f)(float), float a, float b, float eps) {
         n_iterations++;
         curr_gap = (b - a) / n_iterations;
     }
+
+    *iters_ptr = n_iterations;
 
     return curr_result;
 }
