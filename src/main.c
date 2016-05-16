@@ -32,7 +32,7 @@ int parse_args(int argc, char **argv) {
 }
 
 void run_methods(int mode) {
-    float eps1 = 0.001f;
+    float eps1 = 0.0001f;
     int iterations_12 = 0;
     float x_12 = root(f1, f2, 4.5f, 5.5f, eps1, &iterations_12);
     int iterations_13 = 0;
@@ -40,22 +40,22 @@ void run_methods(int mode) {
     int iterations_23 = 0;
     float x_23 = root(f2, f3, 4.0f, 5.0f, eps1, &iterations_23);
 
-    float eps2 = 0.001f;
+    float eps2 = 0.0001f;
     float area = integral(f1, x_13, x_12, eps2) 
                  - integral(f3, x_13, x_23, eps2)
                  - integral(f2, x_23, x_12, eps2);
 
     if (mode & PRINT_ROOTS) {
-        printf("Intersection abscissa for f1 and f2 is %f\n", x_12);
-        printf("Intersection abscissa for f1 and f3 is %f\n", x_13);
-        printf("Intersection abscissa for f2 and f3 is %f\n\n", x_23);
+        printf("Intersection abscissa for f1 and f2 is %.3f\n", x_12);
+        printf("Intersection abscissa for f1 and f3 is %.3f\n", x_13);
+        printf("Intersection abscissa for f2 and f3 is %.3f\n\n", x_23);
     }
     if (mode & PRINT_ITERATIONS) {
         printf("Intersection between f1 and f2 computed in %d iterations\n", iterations_12);
         printf("Intersection between f1 and f3 computed in %d iterations\n", iterations_13);
         printf("Intersection between f2 and f3 computed in %d iterations\n\n", iterations_23);
     }
-    printf("Area square is %f\n", area);
+    printf("Area square is %.3f\n", area);
 
 }
 
