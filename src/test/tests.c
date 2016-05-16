@@ -1,6 +1,6 @@
-#include <equations.h>
 #include <functions.h>
 #include <math.h>
+#include <numerical.h>
 #include <stdio.h>
 
 #define M_PI 3.14159265358979323846264338327
