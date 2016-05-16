@@ -6,8 +6,8 @@ NASMFLAGS := -g -felf32
 all: obj/functions.o obj/equations.o
 	$(CC) -o bin/main src/main.c obj/functions.o obj/equations.o $(CFLAGS)
 
-test: obj/functions.o
-	$(CC) -o bin/test obj/functions.o src/test/tests.c $(CFLAGS) -lm
+test: obj/functions.o obj/equations.o
+	$(CC) -o bin/test obj/functions.o obj/equations.o src/test/tests.c $(CFLAGS) -lm
 
 obj/functions.o: src/functions.asm
 	$(NASMC) -o obj/functions.o src/functions.asm $(NASMFLAGS)

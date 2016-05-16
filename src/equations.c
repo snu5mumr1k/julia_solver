@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define EPS 1e-3f
+
 float root(float (*f)(float), float(*g)(float), float a, float b, float eps, int *iters_ptr) {
     int n_iterations = 0;
     if ((f(a) - g(a)) * (f(b) - g(b)) > 0.0f) {
@@ -16,13 +18,18 @@ float root(float (*f)(float), float(*g)(float), float a, float b, float eps, int
     while (right - left > eps) {
         n_iterations++;
         float middle = (right + left) / 2.0f;
+        if ((f(left) - g(left)) * (f(middle) - g(middle)) < EPS) {
+            left = middle;
+            break;
+        }
         if ((f(left) - g(left)) * (f(middle) - g(middle)) < 0.0f)
             right = middle;
         else
             left = middle;
     }
 
-    *iters_ptr = n_iterations;
+    if (iters_ptr != NULL)
+        *iters_ptr = n_iterations;
 
     return left;
 }
