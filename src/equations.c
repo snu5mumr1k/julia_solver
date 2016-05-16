@@ -1,8 +1,28 @@
 #include <equations.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-void root(float (*f)(float), float(*g)(float), float a, float b, float eps, float *x)
-{}
+float root(float (*f)(float), float(*g)(float), float a, float b, float eps) {
+    if ((f(a) - g(a)) * (f(b) - g(b)) > 0.0f) {
+        printf("root needs (f(a) - g(a)) * (f(b) - g(b)) to be < 0!\n");
+        exit(1);
+    }
+
+    float left = a;
+    float right = b;
+
+    while (right - left > eps) {
+        float middle = (right + left) / 2.0f;
+        if ((f(left) - g(left)) * (f(middle) - g(middle)) < 0.0f)
+            right = middle;
+        else
+            left = middle;
+        printf("%f %f %f\n", middle, left, right);
+    }
+
+    return left;
+}
 
 float integral(float (*f)(float), float a, float b, float eps) {
     float prev_result = 0.0f;
