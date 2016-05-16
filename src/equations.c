@@ -20,7 +20,6 @@ float root(float (*f)(float), float(*g)(float), float a, float b, float eps, int
             right = middle;
         else
             left = middle;
-        printf("%f %f %f\n", middle, left, right);
     }
 
     *iters_ptr = n_iterations;
@@ -28,7 +27,7 @@ float root(float (*f)(float), float(*g)(float), float a, float b, float eps, int
     return left;
 }
 
-float integral(float (*f)(float), float a, float b, float eps, int *iters_ptr) {
+float integral(float (*f)(float), float a, float b, float eps) {
     float prev_result = 0.0f;
     float curr_result = simpsons_formula(f, a, b);
     float curr_gap = b - a / 2;
@@ -44,8 +43,6 @@ float integral(float (*f)(float), float a, float b, float eps, int *iters_ptr) {
         n_iterations++;
         curr_gap = (b - a) / n_iterations;
     }
-
-    *iters_ptr = n_iterations;
 
     return curr_result;
 }
